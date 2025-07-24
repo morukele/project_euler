@@ -79,4 +79,10 @@ mod tests {
         let res = prob_3(13195);
         assert_eq!(res, 29);
     }
+
+    #[test]
+    fn prob_4_test() {
+        let res = prob_4();
+        assert_eq!(res, 906609);
+    }
 }
