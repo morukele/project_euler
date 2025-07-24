@@ -165,6 +165,7 @@ fn is_prime(n: i64) -> bool {
     true
 }
 
+// A function to provide the n adjacent numbers with the higest product.
 pub fn prob_8(n: i64) -> i64 {
     let digits = "73167176531330624919225119674426574742355349194934
     96983520312774506326239578318016984801869478851843
@@ -201,6 +202,60 @@ pub fn prob_8(n: i64) -> i64 {
         .map(|window| window.iter().product())
         .max()
         .unwrap_or(0)
+}
+
+// A function to produce the Pythagorean triple for which a + b + c = n
+pub fn prob_9(n: i64) -> i64 {
+    // a should be max of n/3 because a < b < c
+    for a in 1..n / 3 {
+        // For each a, b should range from a+1 to (n-a)/2 since c > b
+        for b in (a + 1)..(n - a) / 2 {
+            // c = n - a - b from the equation
+            let c = n - a - b;
+
+            // check if it forms a Pythagorean triple
+            if a * a + b * b == c * c {
+                // if a valid triple, return the product
+                return a * b * c;
+            }
+        }
+    }
+
+    // If no solution found, return 0
+    0
+}
+
+pub fn prob_9_optimised(s: i64) -> i64 {
+    let m_limit = 100; // can be tuned
+    let s2 = s / 2;
+
+    for m in 2..=m_limit {
+        if s2 % m == 0 {
+            let mut sm = s2 / m;
+
+            // Remove all factors of 2 from sm
+            while sm % 2 == 0 {
+                sm /= 2;
+            }
+
+            let mut k = if m % 2 == 1 { m + 2 } else { m + 1 };
+
+            while k < 2 * m && k <= sm {
+                if sm % k == 0 && gcd(k, m) == 1 {
+                    let d = s2 / (k * m);
+                    let n = k - m;
+                    let a = d * (m * m - n * n);
+                    let b = 2 * d * m * n;
+                    let c = d * (m * m + n * n);
+                    return a * b * c; // return the product of the triplet
+                }
+                k += 2;
+            }
+        }
+    }
+
+    // If no solution found, return 0
+    0
 }
 
 #[cfg(test)]
@@ -253,5 +308,18 @@ mod tests {
     fn prob_8_test() {
         let res = prob_8(4);
         assert_eq!(res, 5832);
+    }
+
+    #[test]
+    fn prob_9_test() {
+        let res = prob_9(1000);
+        assert_eq!(res, 31875000);
+
+        // optimised solution
+        let res = prob_9_optimised(12);
+        assert_eq!(res, 60);
+
+        let res = prob_9_optimised(1000);
+        assert_eq!(res, 31875000);
     }
 }
