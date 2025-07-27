@@ -258,6 +258,21 @@ pub fn prob_9_optimised(s: i64) -> i64 {
     0
 }
 
+pub fn prob_10(n: i64) -> i64 {
+    let mut count = 0;
+    let mut sum = 0;
+    for i in 0..n {
+        if count < n {
+            if is_prime(i) {
+                sum += i
+            }
+            count += 1;
+        }
+    }
+
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -321,5 +336,11 @@ mod tests {
 
         let res = prob_9_optimised(1000);
         assert_eq!(res, 31875000);
+    }
+
+    #[test]
+    fn prob_10_test() {
+        let res = prob_10(10);
+        assert_eq!(res, 17);
     }
 }
