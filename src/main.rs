@@ -1,6 +1,5 @@
-use project_euler::batch_001::prob_8;
+use project_euler::batch_001::prob_13;
 
 pub fn main() {
-    let res = prob_8(13);
-    println!("{:#?}", res);
+    prob_13();
 }

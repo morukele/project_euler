@@ -1,3 +1,8 @@
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
+
 pub fn prob_1(n: i32) -> i32 {
     let mut sum = 0;
     for i in 0..n {
@@ -408,6 +413,28 @@ fn count_divisors(mut n: i64) -> i64 {
     count
 }
 
+// A function to produce the sum of the first 10 digits of the sum of one-hundred 50-digit numbers
+pub fn prob_13() -> u128 {
+    let file = File::open("prob_13_input.txt").expect("unable to open input file");
+    let reader = BufReader::new(file);
+    let mut numbers = vec![];
+
+    for line in reader.lines() {
+        let line = line.expect("unable to read line");
+        numbers.push(line);
+    }
+
+    let total: u128 = numbers
+        .iter()
+        // take only the first 15 digits because mostly any rounding up will not affect the first 15 digits
+        .map(|num| num[..15].parse::<u128>().unwrap())
+        .sum();
+
+    let total = total.to_string()[..10].parse::<u128>().unwrap();
+
+    total
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -489,5 +516,11 @@ mod tests {
     fn prob_12_test() {
         let res = prob_12(500);
         assert_eq!(res, 76576500);
+    }
+
+    #[test]
+    fn prob_13_test() {
+        let res = prob_13();
+        assert_eq!(res, 5537376230);
     }
 }
