@@ -1,4 +1,5 @@
 use std::{
+    collections::HashMap,
     fs::File,
     io::{BufRead, BufReader},
 };
@@ -433,6 +434,39 @@ pub fn prob_13() -> u128 {
     let total = total.to_string()[..10].parse::<u128>().unwrap();
 
     total
+}
+
+// A function to compute the Collatz Problem.
+pub fn prob_14(n: i64) -> i64 {
+    let mut max_length = 0;
+    let mut s_number = 0;
+    let mut cache = HashMap::new();
+
+    for i in 1..n {
+        let length = collatz_length(i, &mut cache);
+        if length > max_length {
+            max_length = length;
+            s_number = i;
+        }
+    }
+
+    s_number
+}
+
+pub fn collatz_length(n: i64, cache: &mut HashMap<i64, i64>) -> i64 {
+    if n == 1 {
+        return 1;
+    }
+
+    if let Some(&len) = cache.get(&n) {
+        return len;
+    }
+
+    let next = if n % 2 == 0 { n / 2 } else { 3 * n + 1 };
+    let length = 1 + collatz_length(next, cache);
+
+    cache.insert(n, length);
+    length
 }
 
 #[cfg(test)]
