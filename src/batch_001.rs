@@ -258,6 +258,7 @@ pub fn prob_9_optimised(s: i64) -> i64 {
     0
 }
 
+// a function to give the summation of the first n prime numbers
 pub fn prob_10(n: i64) -> i64 {
     let mut count = 0;
     let mut sum = 0;
@@ -273,6 +274,8 @@ pub fn prob_10(n: i64) -> i64 {
     sum
 }
 
+// A function to give the largest product of 4 adjacent numbers on a grid.
+// follow horizontal, vertical and diagonal directions.
 pub fn prob_11() -> i128 {
     let grid = [
         [
@@ -371,11 +374,13 @@ pub fn prob_11() -> i128 {
     max_prod
 }
 
-pub fn prob_12(mut n: i64) -> i64 {
+// A function that return the triangle number with n numbers of divisors
+pub fn prob_12(limit: i64) -> i64 {
+    let mut n = 1;
     loop {
         let triangle = n * (n + 1) / 2;
         let divisors = count_divisors(triangle);
-        if divisors > 500 {
+        if divisors > limit {
             return triangle;
         }
         n += 1;
