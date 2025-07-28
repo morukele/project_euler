@@ -371,6 +371,38 @@ pub fn prob_11() -> i128 {
     max_prod
 }
 
+pub fn prob_12(mut n: i64) -> i64 {
+    loop {
+        let triangle = n * (n + 1) / 2;
+        let divisors = count_divisors(triangle);
+        if divisors > 500 {
+            return triangle;
+        }
+        n += 1;
+    }
+}
+
+fn count_divisors(mut n: i64) -> i64 {
+    let mut count = 1;
+    let mut i = 2;
+
+    while i * i <= n {
+        let mut exponent = 0;
+        while n % i == 0 {
+            exponent += 1;
+            n /= i;
+        }
+        count *= exponent + 1;
+        i += 1;
+    }
+
+    if n > 1 {
+        count *= 2;
+    }
+
+    count
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -446,5 +478,11 @@ mod tests {
     fn prob_11_test() {
         let res = prob_11();
         assert_eq!(res, 70600674);
+    }
+
+    #[test]
+    fn prob_12_test() {
+        let res = prob_12(500);
+        assert_eq!(res, 76576500);
     }
 }
