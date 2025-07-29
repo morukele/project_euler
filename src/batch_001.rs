@@ -469,6 +469,17 @@ pub fn collatz_length(n: i64, cache: &mut HashMap<i64, i64>) -> i64 {
     length
 }
 
+// A function to return all the lattice paths of an m x n grid.
+pub fn prob_15(n: i128) -> i128 {
+    let mut res: i128 = 1;
+
+    for i in 1..=n {
+        res = res * (n + i) / i
+    }
+
+    res
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -556,5 +567,11 @@ mod tests {
     fn prob_13_test() {
         let res = prob_13();
         assert_eq!(res, 5537376230);
+    }
+
+    #[test]
+    fn prob_15_test() {
+        let res = prob_15(2);
+        assert_eq!(res, 6)
     }
 }
