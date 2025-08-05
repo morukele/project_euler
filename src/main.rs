@@ -1,6 +1,6 @@
-use project_euler::batch_001::prob_15;
+use project_euler::batch_001::prob_17;
 
 fn main() {
-    let res = prob_15(20);
+    let res = prob_17();
     println!("The result is: {}", res);
 }

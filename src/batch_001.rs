@@ -480,6 +480,64 @@ pub fn prob_15(n: i128) -> i128 {
     res
 }
 
+// A function to return the sum of the digits in 2^n
+pub fn prob_16(n: u32) -> i64 {
+    use num_bigint::BigInt;
+
+    let base = BigInt::from(2);
+    let res = base.pow(n);
+    let string = res.to_string();
+
+    string
+        .chars()
+        .map(|d| d.to_digit(10).expect("unable to convert string to digit") as i64)
+        .sum()
+}
+
+// A function to return the sum of number of letters in the numbers from 1 to 1000 inclusive
+pub fn prob_17() -> i64 {
+    (1..=1000).map(|n| number_to_word(n).len() as i64).sum()
+}
+
+fn number_to_word(n: i64) -> String {
+    let units = [
+        "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    ];
+    let teens = [
+        "ten",
+        "eleven",
+        "twelve",
+        "thirteen",
+        "fourteen",
+        "fifteen",
+        "sixteen",
+        "seventeen",
+        "eighteen",
+        "nineteen",
+    ];
+    let tens = [
+        "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety",
+    ];
+
+    if n == 1000 {
+        return "onethousand".to_string();
+    } else if n >= 100 {
+        let hundreds = units[(n / 100) as usize].to_string() + "hundred";
+        if n % 100 == 0 {
+            // if no remainder
+            return hundreds;
+        } else {
+            return hundreds + "and" + &number_to_word(n % 100);
+        }
+    } else if n >= 20 {
+        return tens[(n / 10) as usize].to_string() + units[(n % 10) as usize];
+    } else if n >= 10 {
+        return teens[(n - 10) as usize].to_string();
+    } else {
+        return units[n as usize].to_string();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -573,5 +631,17 @@ mod tests {
     fn prob_15_test() {
         let res = prob_15(2);
         assert_eq!(res, 6)
+    }
+
+    #[test]
+    fn prob_16_test() {
+        let res = prob_16(15);
+        assert_eq!(res, 26)
+    }
+
+    #[test]
+    fn prob_17_test() {
+        let res = prob_17();
+        assert_eq!(res, 21124)
     }
 }
